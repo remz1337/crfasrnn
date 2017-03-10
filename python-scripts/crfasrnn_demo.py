@@ -154,7 +154,7 @@ def resizeImage(image):
 def main(argv):
    inputfile = 'input.jpg'
    outputfile = 'output.png'
-   gpu_device = 0 # use -1 to run only on CPU, use 0-3[7] to run on GPU
+   gpu_device = -1 # use -1 to run only on CPU, use 0-3[7] to run on GPU
    try:
       opts, args = getopt.getopt(argv,'hi:o:g:',["ifile=","ofile=","gpu="])
    except getopt.GetoptError:
