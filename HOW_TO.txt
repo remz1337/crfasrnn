@@ -1,0 +1,33 @@
+DO NOT FOLLOW THE INSTALLATION FROM CRFASRNN REPO
+
+1:
+git clone --recursive <this repo>
+
+2:
+follow
+https://github.com/BVLC/caffe/wiki/Ubuntu-14.04-VirtualBox-VM
+
+Some config are already in this repo, like Makefile.config
+
+2.1:
+When running make pycaffe, error about hdf5.h not found. To solve:
+Edit Makefile (replace hdf5 with hdf5_serial, already done in this repo)
+run this command:
+
+find . -type f -exec sed -i -e 's^"hdf5.h"^"hdf5/serial/hdf5.h"^g' -e 's^"hdf5_hl.h"^"hdf5/serial/hdf5_hl.h"^g' '{}' \;
+(from https://github.com/BVLC/caffe/issues/2347)
+
+2.2:
+the test wont work,
+python python/classify.py --print_results examples/images/cat.jpg foo
+will throw an error. It doesnt matter, if you compiled successfully (make pycaffe, all, test)
+
+3:
+Run the demo
+
+sh download_trained_model.sh
+located in python-scripts
+
+then modify crfasrnn_demo.py to use cpu only (gpu_device=-1,already done in this repo)
+then run
+python crfasrnn_demo.py
