@@ -1,3 +1,3 @@
 to use "import caffe" in python
 
-export PYTHONPATH=/home/remi/Github/crfasrnn-GOOD/caffe/python:$PYTHONPATH
+export PYTHONPATH=/home/remi/Github/crfasrnn/caffe/python:$PYTHONPATH
