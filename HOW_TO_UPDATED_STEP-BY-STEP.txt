@@ -1,0 +1,66 @@
+#!/bin/bash
+#DO NOT FOLLOW THE INSTALLATION FROM CRFASRNN REPO
+#Running on a 8vCPU Google Cloud instance (30Gb of RAM)
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+sudo apt-get autoremove
+sudo apt-get reboot
+mkdir Github
+cd Github
+git clone https://github.com/remz1337/crfasrnn.git
+cd crfasrnn
+git clone https://github.com/remz1337/caffe.git
+sudo apt-get install -y build-essential
+cd ../..
+mkdir Downloads
+cd Downloads
+wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run
+sudo sh cuda_8.0.61_375.26_linux-run
+#press q, accept, n, y, ENTER, y, y, ENTER
+cd ..
+echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/lib' >> ~/.bashrc
+echo 'export PYTHONPATH=/home/remi_bc/Github/crfasrnn/caffe/python:$PYTHONPATH' >> ~/.bashrc
+source ~/.bashrc
+sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libboost-all-dev libhdf5-serial-dev protobuf-compiler gfortran libjpeg62 libfreeimage-dev libatlas-base-dev git python-dev python-pip libgoogle-glog-dev libbz2-dev libxml2-dev libxslt-dev libffi-dev libssl-dev libgflags-dev liblmdb-dev python-yaml
+sudo easy_install pillow
+pip install --upgrade pip
+cd Github/crfasrnn/caffe
+cat python/requirements.txt | xargs -L 1 sudo pip install
+pip install lmdb
+sudo ln -s /usr/include/python2.7/ /usr/local/include/python2.7
+sudo ln -s /usr/local/lib/python2.7/dist-packages/numpy/core/include/numpy/ /usr/local/include/python2.7/numpy
+sudo apt-get install -y libopenblas-dev
+export OPENBLAS_NUM_THREADS=8
+cp Makefile.config.example Makefile.config
+nano Makefile.config
+#set BLAS:=open, uncomment CPU_ONLY:=1, change PYTHON_INCLUDE to /usr/local/lib/python2.7/dist-packages/numpy/core/include
+make pycaffe -j8
+make all -j8
+make test
+cd ../python-scripts
+sh download_trained_model.sh
+sudo apt-get install python-tk
+python crfasrnn_demo.py
+cd ../caffe/examples/segmentationcrfasrnn
+git clone https://github.com/martinkersner/py_img_seg_eval.git
+mkdir snapshots
+mkdir data
+cd data
+wget http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar
+tar -xvf VOCtrainval_11-May-2012.tar
+cd ..
+git clone --recursive https://github.com/remz1337/train-CRF-RNN.git
+cd train-CRF-RNN
+ln -s ../data/VOCdevkit/VOC2012/SegmentationClass labels
+ln -s ../data/VOCdevkit/VOC2012/JPEGImages images
+find labels/ -printf '%f\n' | sed 's/\.png//'  | tail -n +2 > images.txt
+python convert_labels.py labels/ images.txt converted_labels/
+#dont forget to change filter_images.py to use 20 classes, same thing for data2lmdb.py
+python filter_images.py converted_labels/ images.txt
+python data2lmdb.py converted_labels/
+cd ..
+cp ../../../python-scripts/TVG_CRFRNN_COCO_VOC.caffemodel .
+python solve.py
