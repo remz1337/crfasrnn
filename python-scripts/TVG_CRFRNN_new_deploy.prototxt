@@ -618,7 +618,7 @@ layer {
   }
   multi_stage_meanfield_param {
    num_iterations: 10
-   compatibility_mode: POTTS#Initialize the compatilibity transform matrix with a matrix whose diagonal is -1.
+   compatibility_mode: CUSTOM#Initialize the compatilibity transform matrix with a matrix whose diagonal is -1.
    threshold: 2
    theta_alpha: 160
    theta_beta: 3

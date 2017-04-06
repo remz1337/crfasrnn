@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 MODEL_FILE = 'TVG_CRFRNN_new_deploy.prototxt'
-PRETRAIN_FILE = 'TVG_CRFRNN_COCO_VOC.caffemodel'
-
+#PRETRAIN_FILE = 'TVG_CRFRNN_COCO_VOC.caffemodel'
+PRETRAIN_FILE = 'snapshots/crfrnn_snap_iter_5.caffemodel'
 
 # The output parameters of the # fully displayed
 # if not this one, because too many parameters, the middle with an ellipsis"......" In the form of
