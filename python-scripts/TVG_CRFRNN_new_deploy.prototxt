@@ -614,7 +614,7 @@ layer {
   lr_mult: 10000#learning rate for W_B
   }
   param {
-  lr_mult: 1000 #learning rate for compatiblity transform matrix
+  lr_mult: 10000 #learning rate for compatiblity transform matrix
   }
   multi_stage_meanfield_param {
    num_iterations: 10
