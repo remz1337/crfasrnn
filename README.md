@@ -1,3 +1,5 @@
+## See HOW_TO_Step-by-step for complete instructions based on my forks
+
 # CRF-RNN for Semantic Image Segmentation
 ![sample](sample.png)
 
