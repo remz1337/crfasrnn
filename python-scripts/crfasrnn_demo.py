@@ -99,7 +99,8 @@ def crfasrnn_segmenter(model_file, pretrained_file, gpudevice, inputs):
 
 def run_crfasrnn(inputfile, outputfile, gpudevice):
     MODEL_FILE = 'TVG_CRFRNN_new_deploy.prototxt'
-    PRETRAINED = 'TVG_CRFRNN_COCO_VOC.caffemodel'
+#    PRETRAINED = 'TVG_CRFRNN_COCO_VOC.caffemodel'
+    PRETRAINED = 'snapshots/crfrnn_iter_26000.caffemodel'
     IMAGE_FILE = inputfile
 
     input_image = 255 * caffe.io.load_image(IMAGE_FILE)

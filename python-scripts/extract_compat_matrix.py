@@ -15,7 +15,7 @@ import numpy as np
 
 MODEL_FILE = 'TVG_CRFRNN_new_deploy.prototxt'
 #PRETRAIN_FILE = 'TVG_CRFRNN_COCO_VOC.caffemodel'
-PRETRAIN_FILE = 'snapshots/crfrnn_iter_2000.caffemodel'
+PRETRAIN_FILE = 'snapshots/crfrnn_iter_26000.caffemodel'
 
 # The output parameters of the # fully displayed
 # if not this one, because too many parameters, the middle with an ellipsis"......" In the form of
@@ -32,7 +32,7 @@ net = caffe.Net (MODEL_FILE, PRETRAIN_FILE, caffe.TEST)
 # traversal of each layer
 for param_name in net.params.keys ():
 
-    if param_name == 'inference1':
+    if param_name == 'inference1-ft':
 
 	#write the column header
 	pf.write('background,aeroplane,bicycle,bird,boat,bottle,bus,car,cat,chair,cow,diningtable,dog,horse,motorbike,person,pottedplant,sheep,sofa,train,tvmonitor')
